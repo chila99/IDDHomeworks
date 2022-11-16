@@ -1,0 +1,89 @@
+\documentclass[12pt, letterpaper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage{listings}
+\usepackage{xcolor}
+\usepackage{hyperref}
+
+\definecolor{codegreen}{rgb}{0,0.6,0}
+\definecolor{codegray}{rgb}{0.5,0.5,0.5}
+\definecolor{codepurple}{rgb}{0.58,0,0.82}
+\definecolor{backcolour}{rgb}{0.95,0.95,0.92}
+
+\lstdefinestyle{mystyle}{
+    backgroundcolor=\color{backcolour},   
+    commentstyle=\color{codegreen},
+    keywordstyle=\color{magenta},
+    numberstyle=\tiny\color{codegray},
+    stringstyle=\color{codepurple},
+    basicstyle=\ttfamily\footnotesize,
+    breakatwhitespace=false,         
+    breaklines=true,                 
+    captionpos=b,                    
+    keepspaces=true,                 
+    numbers=left,                    
+    numbersep=5pt,                  
+    showspaces=false,                
+    showstringspaces=false,
+    showtabs=false,                  
+    tabsize=2
+}
+
+\hypersetup{
+    colorlinks=true,
+    linkcolor=blue,
+    filecolor=magenta,      
+    urlcolor=blue,
+    pdftitle={Overleaf Example},
+    pdfpagemode=FullScreen,
+    }
+
+\setlength{\arrayrulewidth}{0.5mm}
+\setlength{\tabcolsep}{15pt}
+\renewcommand{\arraystretch}{1.37}
+
+\lstset{style=mystyle}
+
+\title{Ingegneria Dei Dati - Homework 4}
+\author{Davide Molitierno - 537969}
+\date{16 Novembre 2022}
+\begin{document}
+
+\maketitle
+Link github del progetto: \url{https://github.com/chila99/IDDHomeworks}
+
+\section{Introduzione}
+Il seguente progetto ha lo scopo di effettuare l'operazione di \emph{\textbf{"Web Data Extraction"}}, ossia di estrarre informazioni d'interesse su pagine relative allo stesso campo da differenti sorgenti web. Ciascuna caratteristica saliente è stata ottenuta per mezzo di specifiche espressioni \textbf{XPath} e testata successivamente su differenti prodotti del medesimo campo.
+Nello specifico nella sezione \ref{sezione1} viene analizzato come è stato svolto il processo di Web Data Extraction(WDE) per la categoria videogiochi dal sito web di Amazon mentre nella sezione \ref{sezione2} la ricerca di informazioni relativa a i piloti di Formula 1.
+\section{WDE per videogiochi da Amazon}\label{sezione1}
+Tale sezione ha lo scopo di analizzare il lavoro svolto per la realizzazione del primo obiettivo postosi all'interno del progetto, quello di individuare una categoria di prodotti di interesse all'interno del sito web di \href{https://www.amazon.it}{Amazon} ed estrapolare almeno cinque caratteristiche per ciascun prodotto. Nello specifico la categoria sulla quale è stato svolto il lavoro è quella relativa ai \href{https://www.amazon.it/s/ref=nb_sb_noss?__mk_it_IT=ÅMÅŽÕÑ&url=search-alias%3Dvideogames&field-keywords=&crid=2GIVFOZXKUAZD&sprefix=%2Cvideogames%2C110}{videogiochi}.
+\subsection{Prodotto tipo e caratteristiche scelte}
+Le istruzioni utilizzate sono state ideate sulla base della pagina web di \href{https://www.amazon.it/FIFA-23-Standard-PS4-Italiano/dp/B0B6CKCTXH/ref=sr_1_1?keywords=fifa+23+ps4&qid=1668615637&qu=eyJxc2MiOiIxLjU2IiwicXNhIjoiMC43NSIsInFzcCI6IjAuMzMifQ%3D%3D&sprefix=fifa%2Caps%2C152&sr=8-1}{Fifa 23} e successivamente sono state testate su diversi altri prodotti simili. Le caratteristiche fondamentali di interesse individuate sono state le seguenti:
+ \begin{itemize}
+    \item Età consigliata;
+    \item Lingua;
+    \item Data di uscita;
+    \item Piattaforma;
+    \item Edizione;
+    \item Paese di origine.
+\end{itemize}
+Nonché, come richiesto:
+\begin{itemize}
+    \item Nome;
+    \item Prezzo.
+\end{itemize}
+Occorre far notare come alcune di queste caratteristiche non è detto siano presenti per ciascun prodotto a causa della mancanza di scelta ad esempio per quella che è l'edizione o per la mancata informazione da parte del sito web di quella informazione ad esempio relativamente al paese di origini.
+\subsection{Formato delle istruzioni}
+Ciascuna espressione ideata si basa sullo stesso principio per cui, ci si posiziona prima su un elemento invariante il più possibile vicino alla caratteristica di interesse e successivamente ci si muove verso essa. Per tale motivo ciascuna espressione XPath comincia per un \textbf{//} per andare a ricerca all'interno dell'intera pagine e successivamente per \textbf{contains} o \textbf{text()=}. La parte successiva invece è data dal percorso necessario per arrivare all'informazione di interesse. Le 5 istruzioni XPath individuate sono quindi le seguente:
+\begin{itemize}
+    \item Età consigliata: \$x("//span[contains(text(),'Età consigliata')]/following-sibling::*/text()")
+    \item Lingua: \$x("//span[contains(text(),'Lingua')]/following-sibling::*/text()")
+    \item Data d'uscita: \$x("//span[contains(text(),'Data ')]/following-sibling::*/text()")
+    \item Piattaforma: \$x("//*[contains(text(),'Piattaforma :')]/../text()[2]")
+    \item Edizione: \$x("//*[text()=' Edizione: ']/*/text()")
+    \item Paese di origine: \$x("//*[contains(text(),'Paese di origine')]/following-sibling::*/text()")
+    \item Nome: \$x("//*[contains(@id,'productTitle')]/text()")
+    \item Prezzo: \$x("(//*[contains(@id,'corePriceDisplay\_desktop\_feature\_div')]/div[1]/*/span[1]/text())[1]")
+\end{itemize}
+Tali espressioni sono state verificate su ulteriori prodotti quali: \textbf{"God of War"}, \textbf{"Cities Skylines"}, \textbf{"Uncharted 4"}, \textbf{"The Last of Us 2"}, \textbf{""}
+\section{WDE per piloti di Formula 1}\label{sezione2}
+\end{document}
