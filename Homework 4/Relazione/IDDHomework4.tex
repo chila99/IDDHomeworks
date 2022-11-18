@@ -3,11 +3,16 @@
 \usepackage{listings}
 \usepackage{xcolor}
 \usepackage{hyperref}
+\usepackage{array}
+\usepackage{float}
 
 \definecolor{codegreen}{rgb}{0,0.6,0}
 \definecolor{codegray}{rgb}{0.5,0.5,0.5}
 \definecolor{codepurple}{rgb}{0.58,0,0.82}
 \definecolor{backcolour}{rgb}{0.95,0.95,0.92}
+\definecolor{XpathColor}{rgb}{0.0, 0.44, 1.0}
+
+\newcolumntype{M}[1]{>{\centering\arraybackslash}m{#1}}
 
 \lstdefinestyle{mystyle}{
     backgroundcolor=\color{backcolour},   
@@ -49,16 +54,17 @@
 \begin{document}
 
 \maketitle
-Link github del progetto: \url{https://github.com/chila99/IDDHomeworks}
 
 \section{Introduzione}
-Il seguente progetto ha lo scopo di effettuare l'operazione di \emph{\textbf{"Web Data Extraction"}}, ossia di estrarre informazioni d'interesse su pagine relative allo stesso campo da differenti sorgenti web. Ciascuna caratteristica saliente è stata ottenuta per mezzo di specifiche espressioni \textbf{XPath} e testata successivamente su differenti prodotti del medesimo campo.
-Nello specifico nella sezione \ref{sezione1} viene analizzato come è stato svolto il processo di Web Data Extraction(WDE) per la categoria videogiochi dal sito web di Amazon mentre nella sezione \ref{sezione2} la ricerca di informazioni relativa a i piloti di Formula 1.
+Il seguente progetto ha lo scopo di effettuare l'operazione di \emph{\textbf{"Web Data Extraction"}}, ossia di estrarre informazioni d'interesse su pagine relative allo stesso campo da differenti sorgenti web. Ciascuna caratteristica saliente è stata ottenuta per mezzo di specifiche espressioni \textbf{XPath} e testata successivamente su differenti prodotti del medesimo tipo.
+Nello specifico nella sezione \ref{sezione1} viene analizzato come è stato svolto il processo in relazione alla categoria videogiochi dal sito web di Amazon mentre nella sezione \ref{sezione2} per l'estrapolazione di informazioni relative ai piloti di Formula 1.
 \section{WDE per videogiochi da Amazon} \label{sezione1}
-Tale sezione ha lo scopo di analizzare il lavoro svolto per la realizzazione del primo obiettivo postosi all'interno del progetto, quello di individuare una categoria di prodotti di interesse all'interno del sito web di \href{https://www.amazon.it}{Amazon} ed estrapolare almeno cinque caratteristiche per ciascun prodotto. Nello specifico la categoria sulla quale è stato svolto il lavoro è quella relativa ai \href{https://www.amazon.it/s/ref=nb_sb_noss?__mk_it_IT=ÅMÅŽÕÑ&url=search-alias%3Dvideogames&field-keywords=&crid=2GIVFOZXKUAZD&sprefix=%2Cvideogames%2C110}{videogiochi}.
+Tale sezione ha lo scopo di analizzare il lavoro svolto per la realizzazione del primo esercizio richiesto all'interno del progetto, quello di individuare una categoria di prodotti di interesse all'interno del sito web di \href{https://www.amazon.it}{Amazon} ed estrapolare almeno cinque caratteristiche per ciascun prodotto. Nello specifico la categoria sulla quale è stato svolto il lavoro è quella relativa ai \href{https://www.amazon.it/s/ref=nb_sb_noss?__mk_it_IT=ÅMÅŽÕÑ&url=search-alias%3Dvideogames&field-keywords=&crid=2GIVFOZXKUAZD&sprefix=%2Cvideogames%2C110}{videogiochi}.
 \subsection{Prodotto tipo e caratteristiche scelte}
 Le istruzioni utilizzate sono state ideate sulla base della pagina web di \href{https://www.amazon.it/FIFA-23-Standard-PS4-Italiano/dp/B0B6CKCTXH/ref=sr_1_1?keywords=fifa+23+ps4&qid=1668615637&qu=eyJxc2MiOiIxLjU2IiwicXNhIjoiMC43NSIsInFzcCI6IjAuMzMifQ%3D%3D&sprefix=fifa%2Caps%2C152&sr=8-1}{Fifa 23} e successivamente sono state testate su diversi altri prodotti simili. Le caratteristiche fondamentali di interesse individuate sono state le seguenti:
  \begin{itemize}
+ 	    \item Nome;
+    \item Prezzo;
     \item Età consigliata;
     \item Lingua;
     \item Data di uscita;
@@ -66,17 +72,13 @@ Le istruzioni utilizzate sono state ideate sulla base della pagina web di \href{
     \item Edizione;
     \item Paese di origine.
 \end{itemize}
-Nonché, come richiesto:
-\begin{itemize}
-    \item Nome;
-    \item Prezzo.
-\end{itemize}
-Occorre far notare come alcune di queste caratteristiche non è detto siano presenti per ciascun prodotto a causa della mancanza di scelta ad esempio per quella che è l'edizione o per la mancata informazione da parte del sito web di quella informazione ad esempio relativamente al paese di origini.
-\subsection{Formato delle istruzioni}
-Ciascuna espressione ideata si basa sullo stesso principio per cui, ci si posiziona prima su un elemento invariante il più possibile vicino alla caratteristica di interesse e successivamente ci si muove verso essa. Per tale motivo ciascuna espressione XPath comincia per un \textbf{//} per andare a ricerca all'interno dell'intera pagine e successivamente per \textbf{contains} o \textbf{text()=}. La parte successiva invece è data dal percorso necessario per arrivare all'informazione di interesse. Le 5 istruzioni XPath individuate sono quindi le seguente:
+Occorre far notare come alcune di queste caratteristiche non è detto siano presenti per ciascun prodotto a causa della mancanza di scelta ad esempio per quella che è l'edizione o per la mancata informazione da parte del sito web di quella caratteristica come ad esempio il paese di origine.
+\subsection{Formato delle istruzioni} \label{istruzioni}
+Ciascuna espressione ideata si basa sullo stesso principio per cui, ci si posiziona prima su un elemento invariante il più possibile vicino alla caratteristica di interesse e successivamente ci si muove verso essa. Per tale motivo ciascuna espressione XPath comincia per un \textbf{//} per effetuare la ricerca all'interno dell'intera pagina e successivamente \textbf{contains} o \textbf{text()=} per posizionarsi in una parte vicina alla caratteristica di interesse che fosse presente in ogni pagina relativa a quella tipologia di prodotto. La parte successiva invece è data dal percorso necessario per arrivare all'informazione di interesse. Le 5 istruzioni XPath individuate sono quindi le seguente:
 \begin{center}
 \begin{table}[!h]
-\begin{tabular}{ |p{3cm}|p{10cm}| }
+\centering
+\begin{tabular}{  |M{3cm} | > {\color{XpathColor}} M{9cm} | }
 \hline
 \multicolumn{2}{|c|}{\textbf{Espressioni XPath per videogiochi su Amazon}} \\
 \hline
@@ -84,37 +86,53 @@ Ciascuna espressione ideata si basa sullo stesso principio per cui, ci si posizi
 \textbf{Caratteristica} & \textbf{Espressione XPath} \\[1ex]
  \hline\hline
 Nome & \$x("//*[contains(@id,'productTitle')]/text()") \\
-Prezzo & \$x("(//*[contains(@id,'corePriceDisplay\_desktop\_feature
-\_div')]/div[1]/*/span[1]/text())[1]")  \\
+Prezzo & \$x("(//*[contains(@id,'corePriceDisplay\_desktop
+\_feature\_div')]/div[1]/*/span[1]/text())[1]")  \\
 Età consigliata & \$x("//span[contains(text(),'Età consigliata')]/following-sibling::*/text()") \\
 Lingua & \$x("//span[contains(text(),'Lingua')]/following-sibling::*/text()") \\
 Data d'uscita & \$x("//span[contains(text(),'Data')]/following-sibling::*/text()") \\
-Piattaforma & \$x("//*[contains(text(),'Piattaforma:')]/../text()[2]") \\
+Piattaforma & \$x("//*[contains(text(),'Piattaforma:')]/../
+text()[2]") \\
 Edizione & \$x("//*[text()=' Edizione: ']/*/text()") \\
 Paese di origine & \$x("//*[contains(text(),'Paese di origine')]/following-sibling::*/text()") \\
  \hline
 \end{tabular}
 \end{table}
 \end{center}
-
-Tali espressioni sono state verificate su ulteriori prodotti quali: \textbf{"God of War"}, \textbf{"Cities Skylines"}, \textbf{"Uncharted 4"}, \textbf{"The Last of Us 2"}, \textbf{""}
+Tali espressioni sono state verificate sui seguenti prodotti: 
+\begin{itemize}
+	\item \textbf{"God of War"};
+	\item \textbf{"Cities Skylines"};
+	\item \textbf{"Uncharted 4"};
+	\item \textbf{"The Last of Us 2"};
+	\item \textbf{"Horizon: Forbidden West"};
+	\item \textbf{"Death Stranding"};
+	\item \textbf{"Spider-Man Miles Morales"};
+	\item \textbf{"Ratchet \& Clank: Rift Apart"};
+	\item \textbf{"Gotham Knights"}.
+	
+\end{itemize}
 
 \section{WDE per piloti di Formula 1}\label{sezione2}
 Tale sezione ha lo scopo di analizzare il lavoro svolto per la realizzazione del secondo esercizio del progetto, quello di individuare una entità di interesse e una serie di sorgenti web da cui poter estrarre un insieme di caratteristiche utili per ciascuna entità. Nello specifico l'entità sulla quale è stato svolto il lavoro è quella relativa ai \textbf{piloti di Formula 1}. Le informazioni principali individuate sono state le seguenti:
 \begin{itemize}
-    \item Team:
-    \item Numero
-    \item Data di nascita
-    \item Nazione
-    \item World championships
+    \item Team;
+    \item Numero;
+    \item Data di nascita;
+    \item Nazione;
+    \item World championships.
 \end{itemize}
-e in ciascuna sottosezione verrà analizzato come tali informazioni sono state estrapolate per ciascun sito web.
-
+e in ciascuna sottosezione verrà analizzato come tali informazioni sono state estrapolate per ciascun sito web indicandone il link e l'entità su cui sono state ideate le differenti espressioni.
+\subsection{Formato delle istruzioni}
+Anche in questo esercizio le istruzioni XPath utilizzate seguono la stessa logica utilizzata per la realizzazione dell'esercizio 1 e per tale motivo si rimanda alla sezione \ref{istruzioni} per una descrizione più dettagliata del processo.
 \subsection{Formula 1 Official}
-Il primo sito scelto è quello ufficiale di \href{https://www.formula1.com/en.html}{Formula 1} e ciascuna informazione è stata ideata a partire dalla pagina web di \href{https://www.formula1.com/en/drivers/lewis-hamilton.html}{Lewis Hamilton}. Di seguito sono mostrate le espressioni XPath utilizzate per estrarre le informazioni: 
+\begin{itemize}
+	\item Link per il sito web: \href{https://www.formula1.com/en.html}{Formula 1}
+	\item Pagina web di riferimento: \href{https://www.formula1.com/en/drivers/lewis-hamilton.html}{Lewis Hamilton}. 
+\end{itemize}
 \begin{center}
-\begin{table}[!h]
-\begin{tabular}{ |p{3cm}|p{9cm}| }
+\begin{table}[H]
+\begin{tabular}{  |M{3cm} | > {\color{XpathColor}} M{9cm} | }
 \hline
 \multicolumn{2}{|c|}{\textbf{Espressioni XPath per i piloti di Formula 1 da Formula 1 Official}} \\
 \hline
@@ -132,17 +150,20 @@ World championships & \$x("//span[text()='World Championships']/../following-sib
 \end{center}
 Ciascuna delle seguenti espressioni XPath è stata verificata sulle seguenti entità:
 \begin{itemize}
-    \item \href{https://www.formula1.com/en/drivers/max-verstappen.html}{Max Verstappen}
-    \item \href{https://www.formula1.com/en/drivers/sergio-perez.html}{Sergio Perez}
-    \item \href{https://www.formula1.com/en/drivers/george-russell.html}{George Russell}
-    \item \href{https://www.formula1.com/en/drivers/fernando-alonso.html}{Fernando Alonso}
+    \item \href{https://www.formula1.com/en/drivers/max-verstappen.html}{Max Verstappen};
+    \item \href{https://www.formula1.com/en/drivers/sergio-perez.html}{Sergio Perez};
+    \item \href{https://www.formula1.com/en/drivers/george-russell.html}{George Russell};
+    \item \href{https://www.formula1.com/en/drivers/fernando-alonso.html}{Fernando Alonso}.
 \end{itemize}
 
 \subsection{Al Volante}
-Il secondo sito scelto è quello di \href{https://www.alvolante.it}{Al Volante} e ciascuna informazione è stata ideata a partire dalla pagina web di \href{https://www.alvolante.it/formula1/piloti/lewis-hamilton}{Lewis Hamilton}. Di seguito sono mostrate le espressioni XPath utilizzate per estrarre le informazioni: 
+\begin{itemize}
+	\item Link per il sito web: \href{https://www.alvolante.it}{Al Volante} 
+	\item Pagina web di riferimento: \href{https://www.alvolante.it/formula1/piloti/lewis-hamilton}{Lewis Hamilton}. 
+\end{itemize}
 \begin{center}
-\begin{table}[!h]
-\begin{tabular}{ |p{3cm}|p{9cm}| }
+\begin{table}[H]
+\begin{tabular}{  |M{3cm} | > {\color{XpathColor}} M{9cm} | }
 \hline
 \multicolumn{2}{|c|}{\textbf{Espressioni XPath per i piloti di Formula 1 da Al Volante}} \\
 \hline
@@ -161,17 +182,20 @@ World championships & \$x("//*[text()='Titoli iridati']/following-sibling::*/tex
 
 Ciascuna delle seguenti espressioni XPath è stata verificata sulle seguenti entità:
 \begin{itemize}
-    \item \href{https://www.alvolante.it/formula1/piloti/max-verstappen}{Max Verstappen}
-    \item \href{https://www.alvolante.it/formula1/piloti/sergio-perez}{Sergio Perez}
-    \item \href{https://www.alvolante.it/formula1/piloti/george-russell}{George Russell}
-    \item \href{https://www.alvolante.it/formula1/piloti/fernando-alonso}{Fernando Alonso}
+    \item \href{https://www.alvolante.it/formula1/piloti/max-verstappen}{Max Verstappen};
+    \item \href{https://www.alvolante.it/formula1/piloti/sergio-perez}{Sergio Perez};
+    \item \href{https://www.alvolante.it/formula1/piloti/george-russell}{George Russell};
+    \item \href{https://www.alvolante.it/formula1/piloti/fernando-alonso}{Fernando Alonso}.
 \end{itemize}
 
 \subsection{Formula1.lne}
-Il terzo sito scelto è quello di \href{https://formula1.lne.esl}{Formula1.lne} e ciascuna informazione è stata ideata a partire dalla pagina web di \href{https://formula1.lne.es/pilotos-f1/lewis-hamilton.html}{Lewis Hamilton}. Di seguito sono mostrate le espressioni XPath utilizzate per estrarre le informazioni: 
+\begin{itemize}
+	\item Link per il sito web: \href{https://formula1.lne.esl}{Formula1.lne}
+	\item Pagina web di riferimento: \href{https://formula1.lne.es/pilotos-f1/lewis-hamilton.html}{Lewis Hamilton}.
+\end{itemize} 
 \begin{center}
-\begin{table}[!h]
-\begin{tabular}{ |p{3cm}|p{9cm}| }
+\begin{table}[H]
+\begin{tabular}{  |M{3cm} | > {\color{XpathColor}} M{9cm} | }
 \hline
 \multicolumn{2}{|c|}{\textbf{Espressioni XPath per i piloti di Formula 1 da Formula1.lne}} \\
 \hline
@@ -190,17 +214,20 @@ World championships & \$x("//*[contains(text(), 'Campeonatos')]/following-siblin
 
 Ciascuna delle seguenti espressioni XPath è stata verificata sulle seguenti entità:
 \begin{itemize}
-    \item \href{https://formula1.lne.es/pilotos-f1/max-verstappen.html}{Max Verstappen}
-    \item \href{https://formula1.lne.es/pilotos-f1/sergio-perez.html}{Sergio Perez}
-    \item \href{https://formula1.lne.es/pilotos-f1/george-russell.html}{George Russell}
-    \item \href{https://formula1.lne.es/pilotos-f1/fernando-alonso.html}{Fernando Alonso}
+    \item \href{https://formula1.lne.es/pilotos-f1/max-verstappen.html}{Max Verstappen};
+    \item \href{https://formula1.lne.es/pilotos-f1/sergio-perez.html}{Sergio Perez};
+    \item \href{https://formula1.lne.es/pilotos-f1/george-russell.html}{George Russell};
+    \item \href{https://formula1.lne.es/pilotos-f1/fernando-alonso.html}{Fernando Alonso}.
 \end{itemize}
 
 \subsection{Motorsport Total}
-Il quarto sito scelto è quello di \href{https://www.motorsport-total.com}{Motorsport Total} e ciascuna informazione è stata ideata a partire dalla pagina web di \href{https://www.motorsport-total.com/formel-1/teams-und-fahrer/fahrer/lewis-hamilton}{Lewis Hamilton}. Di seguito sono mostrate le espressioni XPath utilizzate per estrarre le informazioni: 
+\begin{itemize}
+	\item Link per il sito web: \href{https://www.motorsport-total.com}{Motorsport Total}
+	\item Pagina web di riferimento: \href{https://www.motorsport-total.com/formel-1/teams-und-fahrer/fahrer/lewis-hamilton}{Lewis Hamilton}. 
+\end{itemize} 
 \begin{center}
-\begin{table}[!h]
-\begin{tabular}{ |p{3cm}|p{9cm}| }
+\begin{table}[H]
+\begin{tabular}{  |M{3cm} | > {\color{XpathColor}} M{9cm} | }
 \hline
 \multicolumn{2}{|c|}{\textbf{Espressioni XPath per i piloti di Formula 1 da Motorsport Total}} \\
 \hline
@@ -216,20 +243,24 @@ World championships & N.D. \\
 \end{tabular}
 \end{table}
 \end{center}
+Da notare come in questa pagina web il dato relativo al numero di campionati mondiali vinti non fosse disponibile e per tale motivo la relativa espressione XPath non è stata riportata.
 
 Ciascuna delle seguenti espressioni XPath è stata verificata sulle seguenti entità:
 \begin{itemize}
-    \item \href{https://www.motorsport-total.com/formel-1/teams-und-fahrer/fahrer/max-verstappen}{Max Verstappen}
-    \item \href{https://www.motorsport-total.com/formel-1/teams-und-fahrer/fahrer/sergio-perez}{Sergio Perez}
-    \item \href{https://www.motorsport-total.com/formel-1/teams-und-fahrer/fahrer/george-russell}{George Russell}
-    \item \href{https://www.motorsport-total.com/formel-1/teams-und-fahrer/fahrer/fernando-alonso}{Fernando Alonso}
+    \item \href{https://www.motorsport-total.com/formel-1/teams-und-fahrer/fahrer/max-verstappen}{Max Verstappen};
+    \item \href{https://www.motorsport-total.com/formel-1/teams-und-fahrer/fahrer/sergio-perez}{Sergio Perez};
+    \item \href{https://www.motorsport-total.com/formel-1/teams-und-fahrer/fahrer/george-russell}{George Russell};
+    \item \href{https://www.motorsport-total.com/formel-1/teams-und-fahrer/fahrer/fernando-alonso}{Fernando Alonso}.
 \end{itemize}
 
 \subsection{Motor.es}
-Il quinto sito scelto è quello di \href{https://www.motor.es}{Motor.es} e ciascuna informazione è stata ideata a partire dalla pagina web di \href{https://www.motor.es/formula-1/pilotos/lewis-hamilton}{Lewis Hamilton}. Di seguito sono mostrate le espressioni XPath utilizzate per estrarre le informazioni: 
+\begin{itemize}
+	\item Link per il sito web: \href{https://www.motor.es}{Motor.es}
+	\item Pagina web di riferimento: \href{https://www.motor.es/formula-1/pilotos/lewis-hamilton}{Lewis Hamilton}.
+\end{itemize} 
 \begin{center}
-\begin{table}[!h]
-\begin{tabular}{ |p{3cm}|p{9cm}| }
+\begin{table}[H]
+\begin{tabular}{  |M{3cm} | > {\color{XpathColor}} M{9cm} | }
 \hline
 \multicolumn{2}{|c|}{\textbf{Espressioni XPath per i piloti di Formula 1 da Motor.es}} \\
 \hline
@@ -248,10 +279,10 @@ World championships & \$x("//*[contains(text(), 'Campeonatos mundiales')]/follow
 
 Ciascuna delle seguenti espressioni XPath è stata verificata sulle seguenti entità:
 \begin{itemize}
-    \item \href{https://www.motor.es/formula-1/pilotos/max-verstappen}{Max Verstappen}
-    \item \href{https://www.motor.es/formula-1/pilotos/sergio-perez}{Sergio Perez}
-    \item \href{https://www.motor.es/formula-1/pilotos/george-russell}{George Russell}
-    \item \href{https://www.motor.es/formula-1/pilotos/fernando-alonso}{Fernando Alonso}
+    \item \href{https://www.motor.es/formula-1/pilotos/max-verstappen}{Max Verstappen};
+    \item \href{https://www.motor.es/formula-1/pilotos/sergio-perez}{Sergio Perez};
+    \item \href{https://www.motor.es/formula-1/pilotos/george-russell}{George Russell};
+    \item \href{https://www.motor.es/formula-1/pilotos/fernando-alonso}{Fernando Alonso}.
 \end{itemize}
 
 \end{document}
