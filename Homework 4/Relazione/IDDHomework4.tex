@@ -57,7 +57,10 @@
 
 \section{Introduzione}
 Il seguente progetto ha lo scopo di effettuare l'operazione di \emph{\textbf{"Web Data Extraction"}}, ossia di estrarre informazioni d'interesse su pagine relative allo stesso campo da differenti sorgenti web. Ciascuna caratteristica saliente è stata ottenuta per mezzo di specifiche espressioni \textbf{XPath} e testata successivamente su differenti prodotti del medesimo tipo.
-Nello specifico nella sezione \ref{sezione1} viene analizzato come è stato svolto il processo in relazione alla categoria videogiochi dal sito web di Amazon mentre nella sezione \ref{sezione2} per l'estrapolazione di informazioni relative ai piloti di Formula 1.
+Nello specifico nella sezione \ref{istruzioni} viene analizzato il processo relativo all'attività svolta per individuare le giuste espressioni XPath mentre nelle sezioni \ref{sezione1} e \ref{sezione2} vengono mostrate le informazioni di interesse per i due differenti esercizi e le relative istruzioni utilizzate.
+\section{Formato delle istruzioni} \label{istruzioni}
+Ciascuna espressione ideata si basa sullo stesso principio per cui, ci si posiziona prima su un elemento invariante il più possibile vicino alla caratteristica di interesse e successivamente ci si muove verso essa. Per tale motivo ciascuna espressione XPath comincia per un \textbf{//} per effetuare la ricerca all'interno dell'intera pagina e successivamente \textbf{contains} o \textbf{text()=} per posizionarsi in una parte vicina alla caratteristica di interesse che fosse presente in ogni pagina relativa a quella tipologia di prodotto. La parte successiva invece è data dal percorso necessario per arrivare all'informazione di interesse.
+
 \section{WDE per videogiochi da Amazon} \label{sezione1}
 Tale sezione ha lo scopo di analizzare il lavoro svolto per la realizzazione del primo esercizio richiesto all'interno del progetto, quello di individuare una categoria di prodotti di interesse all'interno del sito web di \href{https://www.amazon.it}{Amazon} ed estrapolare almeno cinque caratteristiche per ciascun prodotto. Nello specifico la categoria sulla quale è stato svolto il lavoro è quella relativa ai \href{https://www.amazon.it/s/ref=nb_sb_noss?__mk_it_IT=ÅMÅŽÕÑ&url=search-alias%3Dvideogames&field-keywords=&crid=2GIVFOZXKUAZD&sprefix=%2Cvideogames%2C110}{videogiochi}.
 \subsection{Prodotto tipo e caratteristiche scelte}
@@ -73,8 +76,7 @@ Le istruzioni utilizzate sono state ideate sulla base della pagina web di \href{
     \item Paese di origine.
 \end{itemize}
 Occorre far notare come alcune di queste caratteristiche non è detto siano presenti per ciascun prodotto a causa della mancanza di scelta ad esempio per quella che è l'edizione o per la mancata informazione da parte del sito web di quella caratteristica come ad esempio il paese di origine.
-\subsection{Formato delle istruzioni} \label{istruzioni}
-Ciascuna espressione ideata si basa sullo stesso principio per cui, ci si posiziona prima su un elemento invariante il più possibile vicino alla caratteristica di interesse e successivamente ci si muove verso essa. Per tale motivo ciascuna espressione XPath comincia per un \textbf{//} per effetuare la ricerca all'interno dell'intera pagina e successivamente \textbf{contains} o \textbf{text()=} per posizionarsi in una parte vicina alla caratteristica di interesse che fosse presente in ogni pagina relativa a quella tipologia di prodotto. La parte successiva invece è data dal percorso necessario per arrivare all'informazione di interesse. Le 5 istruzioni XPath individuate sono quindi le seguente:
+Le 5 istruzioni XPath individuate sono quindi le seguente:
 \begin{center}
 \begin{table}[!h]
 \centering
@@ -123,8 +125,6 @@ Tale sezione ha lo scopo di analizzare il lavoro svolto per la realizzazione del
     \item World championships.
 \end{itemize}
 e in ciascuna sottosezione verrà analizzato come tali informazioni sono state estrapolate per ciascun sito web indicandone il link e l'entità su cui sono state ideate le differenti espressioni.
-\subsection{Formato delle istruzioni}
-Anche in questo esercizio le istruzioni XPath utilizzate seguono la stessa logica utilizzata per la realizzazione dell'esercizio 1 e per tale motivo si rimanda alla sezione \ref{istruzioni} per una descrizione più dettagliata del processo.
 \subsection{Formula 1 Official}
 \begin{itemize}
 	\item Link per il sito web: \href{https://www.formula1.com/en.html}{Formula 1}
